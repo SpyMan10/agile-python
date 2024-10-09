@@ -4,7 +4,7 @@
 import numpy as np
 import pygame
 
-from app.FreqMap import note_to_frequency
+from FreqMap import note_to_frequency
 
 # classe qui permet de jouer de la musique grâce à pygame
 class MusicPlayer:

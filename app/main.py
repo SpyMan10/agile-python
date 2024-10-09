@@ -1,9 +1,36 @@
-import MusicPlayer
+from MusicPlayer import MusicPlayer
 import FreqMap as fm
+from load_partition import load_partition
+from partition_parser import parse_partition
+import pygame
 
-# code exemple pour jouer des notes :
-if __name__ == "__main__" :
+
+def main(chemin_fichier, temps_pause):
+    # Chemin vers le fichier de partition
+
+    # Charger le fichier de partition
+    lines = load_partition(chemin_fichier)
+
+    # Parser la partition
+    sequence = parse_partition(lines)
+
+    # Créer une instance de MusicPlayer
     mp = MusicPlayer()
-    mp.play(fm.note_to_frequency["F7"], 1)
-    mp.play(fm.note_to_frequency["B3"], 4)
-    mp.play(fm.note_to_frequency["E5"], 0.5)
+
+    # Jouer la séquence
+    for note, duration in sequence:
+        if note == "silence":
+            # Ignorer les silences, juste attendre la durée
+            pygame.time.delay(int(duration * temps_pause))  # Attend la durée du silence
+        else:
+            frequency = fm.note_to_frequency.get(note)
+            if frequency:
+                mp.play(frequency, duration)
+            else:
+                print(f"Note inconnue : {note}, ignorée")
+
+if __name__ == "__main__":
+    chemin_fichier = './samples/pirate.txt'  # Assurez-vous que le chemin est correct
+    temps_pause = 1000
+
+    main(chemin_fichier, temps_pause)
