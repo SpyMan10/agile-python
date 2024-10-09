@@ -1,0 +1,4 @@
+# Exclude all editors and IDEs from worktree.
+.vscode/
+.idea/
+.fleet/
