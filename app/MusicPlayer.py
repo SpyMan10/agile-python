@@ -12,6 +12,8 @@ class MusicPlayer:
         pygame.mixer.init(frequency=44100, size=-16, channels=2)
         self.sample_rate = sample_rate
 
+
+
     # c'est le tone passé en entrée qu'il faudra modifier en fonction de l'instrument joué
     # cette méthode pourra être appelée ensuite quelque soit l'instrument choisis
     def _play_tone(self, tone, duration):
