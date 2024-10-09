@@ -89,3 +89,19 @@ note_to_frequency = {
     "D8": 4699,
     "D#8": 4978,  # or "Eb8": 4978
 }
+
+
+# Fonction pour générer une séquence de notes
+def generate_note_sequence(min_notes=10, max_notes=20):
+    # Générer un nombre aléatoire de notes dans l'intervalle spécifié
+    num_notes = random.randint(min_notes, max_notes)
+
+    # Générer la liste de notes
+    sequence = []
+    for _ in range(num_notes):
+        note_name = random.choice(list(note_to_frequency.keys()))
+        frequency = note_to_frequency[note_name]
+        note = Note(name=note_name, frequency=frequency)
+        sequence.append(note)
+
+    return sequence
