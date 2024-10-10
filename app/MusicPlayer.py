@@ -19,34 +19,59 @@ class MusicPlayer:
         self.sample_rate = sample_rate
 
     # Méthode pour générer une séquence de noms de notes aléatoires
+    # def generate_note_sequence(self, min_notes=10, max_notes=20):
+    #     num_notes = random.randint(min_notes, max_notes)
+    #     sequence = []
+    #
+    #     for _ in range(num_notes):
+    #         note_name = random.choice(list(note_to_frequency.keys()))
+    #         sequence.append(note_name)  # Ajouter uniquement le nom de la note
+    #
+    #
+    #
+    #     return sequence
+
+    # Méthode pour générer une séquence de noms de notes en utilisant une distribution gaussienne
     def generate_note_sequence(self, min_notes=10, max_notes=20):
         num_notes = random.randint(min_notes, max_notes)
         sequence = []
 
+        # Récupérer les noms des notes et leur index
+        note_names = list(note_to_frequency.keys())
+        center_index = note_names.index("C4")  # Note centrale autour de laquelle distribuer
+        std_dev = 5  # Écart-type pour la distribution
+
         for _ in range(num_notes):
-            note_name = random.choice(list(note_to_frequency.keys()))
+            # Générer un indice autour du centre avec une distribution gaussienne
+            note_index = int(random.gauss(center_index, std_dev))
+
+            # S'assurer que l'indice est dans les limites de la liste
+            note_index = max(0, min(note_index, len(note_names) - 1))
+
+            # Récupérer le nom de la note correspondant à l'indice
+            note_name = note_names[note_index]
             sequence.append(note_name)  # Ajouter uniquement le nom de la note
 
         return sequence
 
     # Méthode pour jouer une seule note avec une durée fixe
-    def play(self, note_name, duration=1.0):
-        frequency = note_to_frequency[note_name]  # Récupérer la fréquence de la note
-        t = np.linspace(0, duration, int(self.sample_rate * duration), False)
-        tone = np.sin(frequency * 2 * np.pi * t)
-
-        stereo_tone = np.vstack((tone, tone)).T
-        contiguous_tone = np.ascontiguousarray((32767 * stereo_tone).astype(np.int16))
-
-        sound = pygame.sndarray.make_sound(contiguous_tone)
-        sound.set_volume(0.05)
-        sound.play()
-        pygame.time.delay(int(duration * 1000))  # multiplier par 1000 pour convertir en millisecondes
+    # def play(self, note_name, duration=1.0):
+    #     frequency = note_to_frequency[note_name]  # Récupérer la fréquence de la note
+    #     t = np.linspace(0, duration, int(self.sample_rate * duration), False)
+    #     tone = np.sin(frequency * 2 * np.pi * t)
+    #
+    #     stereo_tone = np.vstack((tone, tone)).T
+    #     contiguous_tone = np.ascontiguousarray((32767 * stereo_tone).astype(np.int16))
+    #
+    #     sound = pygame.sndarray.make_sound(contiguous_tone)
+    #     sound.set_volume(0.05)
+    #     sound.play()
+    #     pygame.time.delay(int(duration * 1000))  # multiplier par 1000 pour convertir en millisecondes
 
     # Méthode pour jouer une séquence de notes avec une durée fixe par note
-    def play_sequence(self, sequence, fixed_duration=1.0):
-        for note_name in sequence:
-            self.play(note_name, fixed_duration)
+    # def play_sequence(self, sequence, fixed_duration=1.0):
+    #     for note_name in sequence:
+    #         self.play(note_name, fixed_duration)
 
 
 
@@ -54,10 +79,10 @@ class MusicPlayer:
 
 # second
 # classe qui permet de jouer de la musique grâce à pygame
-import numpy as np
-import pygame
-import random
-from app.FreqMap import note_to_frequency
+# import numpy as np
+# import pygame
+# import random
+# from app.FreqMap import note_to_frequency
 
 # Classe Note pour stocker le nom et la fréquence
 # class Note:
