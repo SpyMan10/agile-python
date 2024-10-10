@@ -1,6 +1,5 @@
 from FreqMap import note_to_frequency as ntf
 from MusicPlayer import MusicPlayer
-import pygame as pg
 
 class Key:
     _level: int
