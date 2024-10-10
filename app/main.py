@@ -6,4 +6,3 @@ if __name__ == "__main__":
 
     # Jouer quelques notes
     mp.play(instrument, MusicPlayer.note_to_frequency["B3"], 1)
-

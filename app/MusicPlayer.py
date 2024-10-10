@@ -1,6 +1,7 @@
 import numpy as np
 import pygame
 
+# classe qui permet de jouer de la musique grâce à pygame
 class MusicPlayer:
     def __init__(self, sample_rate=44100):
         pygame.mixer.init(frequency=sample_rate, size=-16, channels=2)
@@ -73,6 +74,8 @@ class MusicPlayer:
 
     # Jouer le son correspondant à l'instrument choisi
     def play_instrument(self, instrument, frequency, duration):
+        tone = 0
+        
         if instrument == "piano":
             tone = self._generate_piano_tone(frequency, duration)
         elif instrument == "guitare":
@@ -82,12 +85,8 @@ class MusicPlayer:
         else:
             print("Instrument inconnu")
             return
-    
-        # Exemple de tonalité, extraire ce qui va bien pour pouvoir faire varier, pour simuler différents instruments
-    
-        # c'est le tone passé en entrée qu'il faudra modifier en fonction de l'instrument joué
-    
-    
+
+
     # cette méthode pourra être appelée ensuite quelque soit l'instrument choisis
     def _play_tone(self, tone, duration):
         stereo_tone = np.vstack((tone, tone)).T

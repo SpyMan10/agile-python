@@ -10,6 +10,5 @@ app/__pycache__/
 *.py[cod]
 *$py.class
 
-
 # Others
 doc_projet/
