@@ -9,7 +9,7 @@ class MusicPlayer:
 
 
     # Générer une enveloppe ADSR (Attack, Decay, Sustain, Release)
-    def _apply_adsr(self, tone, duration):
+    def _apply_adsr(self, tone: float, duration: float):
         attack_time = 0.1  # Temps d'attaque
         decay_time = 0.2   # Temps de décroissance
         sustain_level = 0.7 # Niveau de maintien
@@ -47,8 +47,9 @@ class MusicPlayer:
         t = np.linspace(0, duration, int(self.sample_rate * duration), False)
         tone = np.sin(frequency * 2 * np.pi * t)  # Fondamentale
         # Ajout d'une harmonique (2ème et 3ème harmoniques)
-        tone += 0.5 * np.sin(frequency * 2 * 2 * np.pi * t)  # Harmonie 1
-        tone += 0.3 * np.sin(frequency * 3 * 2 * np.pi * t)  # Harmonie 2
+        tone += 0.5 * np.sin(frequency * 2 * np.pi * t)  # Harmonie 1
+        tone += 0.3 * np.sin(frequency * 4 * np.pi * t)  # Harmonie 2
+        tone += 0.1 * np.sin(frequency * 6 * np.pi * t)  # Harmonie 3
         return self._apply_adsr(tone, duration)
 
 
@@ -74,8 +75,6 @@ class MusicPlayer:
 
     # Jouer le son correspondant à l'instrument choisi
     def play_instrument(self, instrument, frequency, duration):
-        tone = 0
-        
         if instrument == "piano":
             tone = self._generate_piano_tone(frequency, duration)
         elif instrument == "guitare":
@@ -85,6 +84,18 @@ class MusicPlayer:
         else:
             print("Instrument inconnu")
             return
+
+        # Créer un tableau stéréo (2D) en dupliquant le ton
+        stereo_tone = np.vstack((tone, tone)).T
+
+        # S'assurer que le tableau est contigu en mémoire
+        contiguous_tone = np.ascontiguousarray((32767 * stereo_tone).astype(np.int16))
+
+        # Convertir l'onde en un format audio et jouer
+        sound = pygame.sndarray.make_sound(contiguous_tone)
+        sound.set_volume(0.05)  # Réglez le volume
+        sound.play()
+        pygame.time.delay(int(duration * 1000))
 
 
     # cette méthode pourra être appelée ensuite quelque soit l'instrument choisis
