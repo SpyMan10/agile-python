@@ -3,13 +3,24 @@ import FreqMap as fm
 from load_partition import load_partition
 from partition_parser import parse_partition
 import pygame
+import os
 
+def play_file_upload(temps_pause):
+    # Demander à l'utilisateur de saisir le nom du fichier sans avoir à ajouter l'extension .txt
+    file_name = input("Entrez le nom du fichier (ex: mario) : ")
 
-def play_file_upload(chemin_fichier, temps_pause):
-    # Chemin vers le fichier de partition
+    # Ajouter l'extension .txt si elle n'est pas déjà présente
+    if not file_name.endswith('.txt'):
+        file_name += '.txt'
+
+    file_path = os.path.join("./samples", file_name)
+    
+    if not os.path.exists(file_path):
+        print(f"Erreur : le fichier '{file_name}' n'existe pas dans le répertoire './samples'.")
+        return
 
     # Charger le fichier de partition
-    lines = load_partition(chemin_fichier)
+    lines = load_partition(file_path)
 
     # Parser la partition
     sequence = parse_partition(lines)
@@ -30,7 +41,5 @@ def play_file_upload(chemin_fichier, temps_pause):
                 print(f"Note inconnue : {note}, ignorée")
 
 if __name__ == "__main__":
-    chemin_fichier = './samples/mario.txt'  # Assurez-vous que le chemin est correct
     temps_pause = 1000
-
-    play_file_upload(chemin_fichier, temps_pause)
+    play_file_upload(temps_pause)
