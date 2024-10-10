@@ -11,7 +11,7 @@ class Key:
         self._note = note
 
     @property
-    def note(self) -> int:
+    def note(self) -> str:
         return self._note
     
     @property
