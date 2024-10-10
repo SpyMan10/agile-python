@@ -4,6 +4,7 @@
 .fleet/
 .venv/
 
+doc_projet/
 __pycache__/
 app/__pycache__/
 *.py[cod]
