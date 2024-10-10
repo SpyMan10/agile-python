@@ -1,4 +1,4 @@
-import MusicPlayer
+from MusicPlayer import MusicPlayer
 import FreqMap as fm
 
 # code exemple pour jouer des notes :

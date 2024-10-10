@@ -4,7 +4,7 @@
 import numpy as np
 import pygame
 
-from FreqMap import note_to_frequency
+from note_frequence_base import note_to_frequency
 
 # classe qui permet de jouer de la musique grâce à pygame
 class MusicPlayer:
@@ -40,3 +40,10 @@ class MusicPlayer:
         sound.play()
         pygame.time.delay(int(duration * 500)) 
 
+# code exemple pour jouer des notes :
+
+if __name__ == "__main__" :
+    mp = MusicPlayer()
+    mp.play(note_to_frequency["F7"], 1)
+    mp.play(note_to_frequency["B3"], 4)
+    mp.play(note_to_frequency["E5"], 0.5)
