@@ -26,7 +26,13 @@ class MusicPlayer:
     def play(self, frequency, duration):
         # Créer une onde sinusoïdale à la fréquence spécifiée
         t = np.linspace(0, duration, int(self.sample_rate * duration), False)
-        tone = np.sin(frequency * 2 * np.pi * t)
+        # tone = np.sin(frequency * 2 * np.pi * t)
+        tone = ( 0.25 * np.sin(frequency * 2 * np.pi * t) +
+                 0.25 * np.sin(frequency * 2 * np.pi * t) +
+                 0.25 * np.sin(frequency * 2 * np.pi * t) +
+                 0.25 * np.sin(frequency * 2 * np.pi * t) 
+                 )
+
 
         # Créer un tableau stéréo (2D) en dupliquant le ton
         stereo_tone = np.vstack((tone, tone)).T

@@ -24,9 +24,33 @@ random_notes_list = [list_note[note] for note in list_random]
 # la durée de la note est la même que la durée des blancs qui suivent
 # Le nombre de blanc qui suivent est de 1 à 6 et de même durée que la note qui precèdent
 
-def randomRythm(speed):
+def randomRythm():
+    # Choix vitesse de lecture
+    print("""
+          #-------------------------------#
+          #     Génération Aléatoire      #
+          #-------------------------------#
+
+          Choix de votre vitesse de lecture : 
+          1 : Lent
+          2 : Normal
+          3 : Rapide
+          """)
+    user_speed_choice = input()
+    speed = ["Lent", "Normal", "Rapide"]
+    print(f"""
+    #----------------------------------------------------------#
+         Vous avez choisi une lecture : {speed[int(user_speed_choice)-1]}
+    #----------------------------------------------------------#
+        """)
+
+    # Choix du nom du fichier du client
+    print("""
+          Donner un nom à votre moreau :""")
+    user_track_name = input()
+
     # Ouvre (ou crée) un fichier texte en mode écriture ('w')
-    with open('samples/user.txt', 'w') as fichier:
+    with open(f'samples/{user_track_name}.txt', 'w') as fichier:
 
         # Faire une boucle avec la liste de note random
         random_int = random.randint(1, 6)
@@ -37,30 +61,36 @@ def randomRythm(speed):
         initial_duration = random.randint(80, 125)/1000
 
         for note in random_notes_list:
+
             # Ajouter un muliplicatur de durée pour 20% des notes
             multiplier = random.randint(2, 3) if 8 < random.randint(1, 10) else 1
-            multiplier *= speed
+            multiplier *= int(user_speed_choice)
             duration = round(initial_duration * multiplier, 3)
+
             # Inscrire la première ligne
             if (first_line_flag):
                 write = "Unknow " + str(duration) + "\n"
                 fichier.write(write)
                 first_line_flag = False
+
             # déterminer le nombre de blanc
             random_int = random.randint(1, 6)
             write = str(note) + " " + str(duration) + "\n"
             fichier.write(write)
+
             # Reperter le nombre de blanc
             index_flag = 0
+
             while index_flag < random_int:
                 write = "0 " + str(duration) + "\n"
                 fichier.write(write)
                 index_flag = index_flag + 1
 
-    print("Le fichier a été créé et le contenu a été écrit.")
+    print(f"""
+    #----------------------------------------------------------#
+          Votre morceau {user_track_name} a était généré.
+          Lecture de votre morceau.
+    #----------------------------------------------------------#
+          """)
 
-#
-# - Gestion du rythme : lent - normal - rapide
-#
-
-randomRythm(1)
+randomRythm()
