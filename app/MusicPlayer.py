@@ -1,13 +1,11 @@
 import numpy as np
 import pygame
 
-from FreqMap import note_to_frequency
-
-# classe qui permet de jouer de la musique grâce à pygame
 class MusicPlayer:
     def __init__(self, sample_rate=44100):
         pygame.mixer.init(frequency=sample_rate, size=-16, channels=2)
         self.sample_rate = sample_rate
+
 
     # Générer une enveloppe ADSR (Attack, Decay, Sustain, Release)
     def _apply_adsr(self, tone, duration):
@@ -42,6 +40,7 @@ class MusicPlayer:
 
         return tone * envelope
 
+
     # Méthode pour générer une onde sinusoïdale avec harmoniques (piano)
     def _generate_piano_tone(self, frequency, duration):
         t = np.linspace(0, duration, int(self.sample_rate * duration), False)
@@ -50,6 +49,7 @@ class MusicPlayer:
         tone += 0.5 * np.sin(frequency * 2 * 2 * np.pi * t)  # Harmonie 1
         tone += 0.3 * np.sin(frequency * 3 * 2 * np.pi * t)  # Harmonie 2
         return self._apply_adsr(tone, duration)
+
 
     # Méthode pour générer une onde triangulaire avec harmoniques (guitare)
     def _generate_guitar_tone(self, frequency, duration):
@@ -60,6 +60,7 @@ class MusicPlayer:
         tone += 0.25 * np.sin(frequency * 3 * 2 * np.pi * t)  # Harmonie 2
         return self._apply_adsr(tone, duration)
 
+
     # Méthode pour générer une onde en dents de scie avec harmoniques (violon)
     def _generate_violin_tone(self, frequency, duration):
         t = np.linspace(0, duration, int(self.sample_rate * duration), False)
@@ -69,8 +70,9 @@ class MusicPlayer:
         tone += 0.3 * np.sin(frequency * 3 * 2 * np.pi * t)  # Harmonie 2
         return self._apply_adsr(tone, duration)
 
+
     # Jouer le son correspondant à l'instrument choisi
-    def play(self, instrument, frequency, duration):
+    def play_instrument(self, instrument, frequency, duration):
         if instrument == "piano":
             tone = self._generate_piano_tone(frequency, duration)
         elif instrument == "guitare":
@@ -80,6 +82,26 @@ class MusicPlayer:
         else:
             print("Instrument inconnu")
             return
+    
+        # Exemple de tonalité, extraire ce qui va bien pour pouvoir faire varier, pour simuler différents instruments
+    
+        # c'est le tone passé en entrée qu'il faudra modifier en fonction de l'instrument joué
+    
+    
+    # cette méthode pourra être appelée ensuite quelque soit l'instrument choisis
+    def _play_tone(self, tone, duration):
+        stereo_tone = np.vstack((tone, tone)).T
+        contiguous_tone = np.ascontiguousarray((32767 * stereo_tone).astype(np.int16))
+        sound = pygame.sndarray.make_sound(contiguous_tone)
+        sound.set_volume(0.05)  # Réglez le volume
+        sound.play()
+        pygame.time.delay(int(duration * 1000)) #tenir la note la durée voulue
+    
+
+    def _play(self, frequency, duration):
+        # Créer une onde sinusoïdale à la fréquence spécifiée
+        t = np.linspace(0, duration, int(self.sample_rate * duration), False)
+        tone = np.sin(frequency * 2 * np.pi * t)
 
         # Créer un tableau stéréo (2D) en dupliquant le ton
         stereo_tone = np.vstack((tone, tone)).T
@@ -87,11 +109,12 @@ class MusicPlayer:
         # S'assurer que le tableau est contigu en mémoire
         contiguous_tone = np.ascontiguousarray((32767 * stereo_tone).astype(np.int16))
 
-        # Convertir l'onde en un format audio et jouer
+        # Convertir l'onde sinusoïdale en un format audio et jouer
         sound = pygame.sndarray.make_sound(contiguous_tone)
         sound.set_volume(0.05)  # Réglez le volume
         sound.play()
-        pygame.time.delay(int(duration * 1000))
+        pygame.time.delay(int(duration * 500)) 
+
 
 # Demander à l'utilisateur de choisir un instrument
 def choisir_instrument():
