@@ -39,6 +39,7 @@ def randomRythm(speed):
         for note in random_notes_list:
             # Ajouter un muliplicatur de durée pour 20% des notes
             multiplier = random.randint(2, 3) if 8 < random.randint(1, 10) else 1
+            multiplier *= speed
             duration = round(initial_duration * multiplier, 3)
             # Inscrire la première ligne
             if (first_line_flag):
@@ -62,3 +63,4 @@ def randomRythm(speed):
 # - Gestion du rythme : lent - normal - rapide
 #
 
+randomRythm(1)
