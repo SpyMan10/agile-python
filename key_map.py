@@ -69,9 +69,9 @@ class KeyMap:
         return None
     
 
-    def read_and_play_seq(self):
+    def read_and_play_seq(self, instrument: str):
         seq = self.read_key_seq()
         player = MusicPlayer()
         for k in seq:
-            player.play(ntf[k.note] * (k.level * 0.2), 1.0)
+            player.play_instrument(instrument, ntf[k.note] * (k.level * 0.2), 1.0)
 
