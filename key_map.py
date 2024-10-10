@@ -52,7 +52,7 @@ class KeyMap:
 
     def read_key_seq(self) -> list[Key]:
         seq = input('Sequence: ').upper()
-        ls: list[str] = []
+        ls: list[Key] = []
         if len(seq) == 0:
             return []
         for c in seq:
