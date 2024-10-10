@@ -24,38 +24,39 @@ random_notes_list = [list_note[note] for note in list_random]
 # la durée de la note est la même que la durée des blancs qui suivent
 # Le nombre de blanc qui suivent est de 1 à 6 et de même durée que la note qui precèdent
 
-# Ouvre (ou crée) un fichier texte en mode écriture ('w')
-with open('samples/user.txt', 'w') as fichier:
+def randomRythm(speed):
+    # Ouvre (ou crée) un fichier texte en mode écriture ('w')
+    with open('samples/user.txt', 'w') as fichier:
 
-    # Faire une boucle avec la liste de note random
-    random_int = random.randint(1, 6)
-
-    # Variable first_line_flag pour reperer la premer ligne
-    first_line_flag = True
-    # déteerminer le temps de la note
-    initial_duration = random.randint(80, 125)/1000
-
-    for note in random_notes_list:
-        # Ajouter un muliplicatur de durée pour 20% des notes
-        multiplier = random.randint(2, 3) if 8 < random.randint(1, 10) else 1
-        duration = round(initial_duration * multiplier, 3)
-        # Inscrire la première ligne
-        if (first_line_flag):
-            write = "Unknow " + str(duration) + "\n"
-            fichier.write(write)
-            first_line_flag = False
-        # déterminer le nombre de blanc
+        # Faire une boucle avec la liste de note random
         random_int = random.randint(1, 6)
-        write = str(note) + " " + str(duration) + "\n"
-        fichier.write(write)
-        # Reperter le nombre de blanc
-        index_flag = 0
-        while index_flag < random_int:
-            write = "0 " + str(duration) + "\n"
-            fichier.write(write)
-            index_flag = index_flag + 1
 
-print("Le fichier a été créé et le contenu a été écrit.")
+        # Variable first_line_flag pour reperer la premer ligne
+        first_line_flag = True
+        # déteerminer le temps de la note
+        initial_duration = random.randint(80, 125)/1000
+
+        for note in random_notes_list:
+            # Ajouter un muliplicatur de durée pour 20% des notes
+            multiplier = random.randint(2, 3) if 8 < random.randint(1, 10) else 1
+            duration = round(initial_duration * multiplier, 3)
+            # Inscrire la première ligne
+            if (first_line_flag):
+                write = "Unknow " + str(duration) + "\n"
+                fichier.write(write)
+                first_line_flag = False
+            # déterminer le nombre de blanc
+            random_int = random.randint(1, 6)
+            write = str(note) + " " + str(duration) + "\n"
+            fichier.write(write)
+            # Reperter le nombre de blanc
+            index_flag = 0
+            while index_flag < random_int:
+                write = "0 " + str(duration) + "\n"
+                fichier.write(write)
+                index_flag = index_flag + 1
+
+    print("Le fichier a été créé et le contenu a été écrit.")
 
 #
 # - Gestion du rythme : lent - normal - rapide
