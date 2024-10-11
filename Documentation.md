@@ -6,6 +6,8 @@ MusicaLau, un magasin d'instruments de musique, souhaite élargir sa clientèle 
 - Offrir la possibilité de jouer des notes et de générer des séquences musicales aléatoires avec un rythme défini.
 - Permettre la lecture de partitions depuis des fichiers. Un exemple de format est disponible sur Moodle, car les clients pourraient vouloir utiliser des partitions qu'ils trouvent sur internet.
 
+## Présentation de l'application
+
 ## Les différentes fonctions mises en place pour la réalisation du projet
 
 - **play_samples** : permet la lecture de partitions depuis des fichiers
