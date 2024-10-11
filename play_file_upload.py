@@ -28,9 +28,3 @@ def play_file_upload(chemin_fichier, temps_pause):
                 mp.play(frequency, duration)
             else:
                 print(f"Note inconnue : {note}, ignorée")
-
-if __name__ == "__main__":
-    chemin_fichier = './samples/mario.txt'  # Assurez-vous que le chemin est correct
-    temps_pause = 1000
-
-    play_file_upload(chemin_fichier, temps_pause)
