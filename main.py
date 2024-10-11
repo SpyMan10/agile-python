@@ -29,7 +29,6 @@ def main():
             part = parse_partition(load_partition("samples/" + file + '.txt'))
             mp = MusicPlayer.MusicPlayer()
             for (k, v) in part:
-                print(k, v)
                 mp.play_instrument(inst, None if k is None else v, 1)
             should_ask_for_input = input("Encore (y/n) ? ").strip().lower().startswith("y")
     elif choice == mode.M_RELOAD_MODE:
