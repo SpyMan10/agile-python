@@ -16,7 +16,6 @@ class MusicPlayer:
         release_time = 0.2  # Temps de relâchement
 
         n_samples = int(self.sample_rate * duration)
-        t = np.linspace(0, duration, n_samples, False)
 
         envelope = np.ones_like(tone)
 
@@ -78,7 +77,7 @@ class MusicPlayer:
         return self._apply_adsr(tone, duration)
 
     # Jouer le son correspondant à l'instrument choisi
-    def play_instrument(self, instrument, frequency, duration):
+    def play_instrument(self, instrument: str, frequency: float, duration: float):
         tone = 0
 
         if instrument == "piano":
@@ -90,8 +89,6 @@ class MusicPlayer:
         else:
             print("Instrument inconnu")
             return
-
-        print(tone)
 
         # Créer un tableau stéréo (2D) en dupliquant le ton
         stereo_tone = np.vstack((tone, tone)).T

@@ -1,7 +1,8 @@
 M_FREE_MODE = 0
 M_RAND_MODE = 1
 M_RELOAD_MODE = 2
-ALL_MODES = [M_FREE_MODE, M_RAND_MODE, M_RELOAD_MODE]
+M_QUIT = 3
+ALL_MODES = [M_FREE_MODE, M_RAND_MODE, M_RELOAD_MODE, M_QUIT]
 
 def ask_for_mode() -> int:
     """
@@ -16,6 +17,7 @@ def ask_for_mode() -> int:
     print("0: Mode libre (joue des notes avec le clavier du PC)")
     print("1: Génération aléatoire de séquence musicale.")
     print("2: Relecture de partitions (fichier texte).")
+    print("3: Quitter")
     # Blank line
     print()
 

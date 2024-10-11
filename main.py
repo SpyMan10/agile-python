@@ -1,46 +1,64 @@
 import mode
 import MusicPlayer
 import randseq
-from key_map import KeyMap
-from load_partition import load_partition
-from partition_parser import parse_partition
+import partition_parser as Parser
+from mode import M_QUIT
 from random_rythm import random_rhythm
-from FreqMap import note_to_frequency as nf
-
+import FreqMap as fm
+import keyboard
+import key_map
 
 def main():
-    # Mode choisi par l'utilisateur (Piano mode, Random mode, Reload mode)
-    choice = mode.ask_for_mode()
+    should_restart = True
 
-    # Instrument choisi par l'utilisateur
-    inst = MusicPlayer.choisir_instrument()
+    while should_restart:
+        # Mode choisi par l'utilisateur (Piano mode, Random mode, Reload mode)
+        choice = mode.ask_for_mode()
 
-    should_ask_for_input = True
+        if choice == M_QUIT:
+            return
 
-    if choice == mode.M_FREE_MODE:
-        km = KeyMap()
-        should_ask_for_input = True
-        while should_ask_for_input:
-            km.read_and_play_seq(inst)
-            should_ask_for_input = input("Encore (y/n) ? ").strip().lower().startswith("y")
-    elif choice == mode.M_RAND_MODE:
-        while should_ask_for_input:
-            file = random_rhythm(randseq.generate_note_sequence())
-            part = parse_partition(load_partition("samples/" + file + '.txt'))
+        # Instrument choisi par l'utilisateur
+        inst = MusicPlayer.choisir_instrument()
+
+        if choice == mode.M_FREE_MODE:
             mp = MusicPlayer.MusicPlayer()
-            for (k, v) in part:
-                mp.play_instrument(inst, None if k is None else v, 1)
-            should_ask_for_input = input("Encore (y/n) ? ").strip().lower().startswith("y")
-    elif choice == mode.M_RELOAD_MODE:
-        file = input('File : ')
-        part = parse_partition(load_partition("samples/" + file + '.txt'))
-        mp = MusicPlayer.MusicPlayer()
-        while should_ask_for_input:
-            for (k, v) in part:
-                f = nf[k if k in nf.keys() else 'B0']
-                mp.play_instrument(inst, f, v)
-            should_ask_for_input = input("Encore (y/n) ? ").strip().lower().startswith("y")
+            while True:
+                # Attend qu'une touche soit pressée
+                event = keyboard.read_event()
+                if event.event_type == keyboard.KEY_DOWN:
+                    key = event.name
+                    if key == 'q':
+                        break
+                    elif key in key_map.keyboard_to_note:
+                        note = key_map.keyboard_to_note[key]
+                        frequency = fm.note_to_frequency[note]
+                        mp.play_instrument(inst, frequency, 1)
+                    else:
+                        print("Touche invalide, essaie encore.")
+        elif choice == mode.M_RAND_MODE:
+            should_ask_for_input = True
+            while should_ask_for_input:
+                file = random_rhythm(randseq.generate_note_sequence())
+                part = Parser.parse_partition(Parser.load_partition("samples/" + file + '.txt'))
+                mp = MusicPlayer.MusicPlayer()
+                for note in part:
+                    mp.play_instrument(inst, note.freq, note.time + 0.25)
+                should_ask_for_input = input("Encore (y/n) ? ").strip().lower().startswith("y")
+        elif choice == mode.M_RELOAD_MODE:
+            file = input('File : ')
+            part = Parser.parse_partition(Parser.load_partition("samples/" + file + '.txt'))
+            mp = MusicPlayer.MusicPlayer()
+            should_ask_for_input = True
+            while should_ask_for_input:
+                for note in part:
+                    t = note.time + 0.25
+                    mp.play_instrument(inst, note.freq * 0.3, t)
+                should_ask_for_input = input("Encore (y/n) ? ").strip().lower().startswith("y")
 
+        choice = input("Retour au menu principal ? (y/n) ? ")
+        print(choice)
+        should_restart = choice.strip().lower().startswith("y")
 
 if __name__ == "__main__":
     main()

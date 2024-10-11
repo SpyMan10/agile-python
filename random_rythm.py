@@ -8,9 +8,9 @@ def random_rhythm(random_notes_list: list[str]) -> str:
 #-------------------------------#
 
 Choix de votre vitesse de lecture : 
-1 : Lent
+1 : Rapide
 2 : Normal
-3 : Rapide
+3 : Lent
           """.strip())
     user_speed_choice = input()
     speed = ["Lent", "Normal", "Rapide"]
@@ -26,26 +26,14 @@ Choix de votre vitesse de lecture :
 
     # Ouvre (ou crée) un fichier texte en mode écriture ('w')
     with open(f'samples/{user_track_name}.txt', 'w') as fichier:
-
-        # Faire une boucle avec la liste de note random
-        random_int = random.randint(1, 6)
-
-        # Variable first_line_flag pour reperer la premer ligne
-        first_line_flag = True
         # déteerminer le temps de la note
         initial_duration = random.randint(80, 125) / 1000
 
         for note in random_notes_list:
-
             # Ajouter un muliplicatur de durée pour 20% des notes
             multiplier = random.randint(2, 3) if 8 < random.randint(1, 10) else 1
             multiplier *= int(user_speed_choice)
             duration = round(initial_duration * multiplier, 3)
-
-            # Inscrire la première ligne
-            if first_line_flag:
-                fichier.write("Unknown " + str(duration) + "\n")
-                first_line_flag = False
 
             # déterminer le nombre de blanc
             random_int = random.randint(1, 6)
