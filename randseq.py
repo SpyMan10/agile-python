@@ -1,7 +1,7 @@
 import random
 from FreqMap import note_to_frequency
 
-def generate_note_sequence(self, min_notes=10, max_notes=20):
+def generate_note_sequence(min_notes=10, max_notes=20):
     num_notes = random.randint(min_notes, max_notes)
     sequence = []
 
@@ -10,7 +10,8 @@ def generate_note_sequence(self, min_notes=10, max_notes=20):
     center_index = note_names.index("C4")  # Note centrale autour de laquelle distribuer
     std_dev = 5  # Écart-type pour la distribution
 
-    for _ in range(num_notes):
+    while num_notes > 0:
+        num_notes -= 1
         # Générer un indice autour du centre avec une distribution gaussienne
         note_index = int(random.gauss(center_index, std_dev))
 
