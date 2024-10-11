@@ -1,4 +1,7 @@
 import random
+import time
+from math import floor
+
 
 def random_rhythm(random_notes_list: list[str]) -> str:
     # Choix vitesse de lecture
