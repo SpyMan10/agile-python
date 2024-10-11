@@ -2,7 +2,7 @@
 
 def parse_partition(lines):
     sequence = []
-    for line in lines:
+    for line in lines:5
         parts = line.strip().split()
         if len(parts) != 2:
             print(f"Ligne ignorée (format incorrect) : {line}")
