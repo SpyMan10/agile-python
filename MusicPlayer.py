@@ -45,33 +45,39 @@ class MusicPlayer:
     # Méthode pour générer une onde sinusoïdale avec harmoniques (piano)
     def _generate_piano_tone(self, frequency, duration):
         t = np.linspace(0, duration, int(self.sample_rate * duration), False)
-        tone = np.sin(frequency * 2 * np.pi * t)  # Fondamentale
-        # Ajout d'une harmonique (2ème et 3ème harmoniques)
-        tone += 0.5 * np.sin(frequency * 2 * np.pi * t)  # Harmonie 1
-        tone += 0.3 * np.sin(frequency * 4 * np.pi * t)  # Harmonie 2
-        tone += 0.1 * np.sin(frequency * 6 * np.pi * t)  # Harmonie 3
+        # Ajout d'harmoniques avec des coefficients plus faibles pour les ordres supérieurs
+        tone = 0.2 * np.sin(2 * frequency * 2 * np.pi * t)  # 2ème harmonique
+        #tone += 0.25 * np.sin(3 * frequency * 2 * np.pi * t)  # 3ème harmonique
+        tone += 0.3 * np.sin(6 * frequency * 2 * np.pi * t)  # 4ème harmonique
+        tone += 0.4 * np.sin(5 * frequency * 2 * np.pi * t)  # 5ème harmonique
         return self._apply_adsr(tone, duration)
-
 
     # Méthode pour générer une onde triangulaire avec harmoniques (guitare)
     def _generate_guitar_tone(self, frequency, duration):
         t = np.linspace(0, duration, int(self.sample_rate * duration), False)
-        tone = 2 * np.abs(2 * (t * frequency - np.floor(t * frequency + 0.5))) - 1  # Onde triangulaire
-        # Ajout d'harmoniques
-        tone += 0.4 * np.sin(frequency * 2 * 2 * np.pi * t)  # Harmonie 1
-        tone += 0.25 * np.sin(frequency * 3 * 2 * np.pi * t)  # Harmonie 2
-        return self._apply_adsr(tone, duration)
 
+        tone = (t * frequency - np.floor(0.5 + t * frequency))  # Onde en dents de scie
+        # Ajout d'harmoniques
+        #tone += 0.5 * np.sin(2 * frequency * 2 * np.pi * t)  # 2ème harmonique
+        tone += 0.2 * np.sin(3 * frequency * 2 * np.pi * t)  # 3ème harmonique
+        tone += 0.15 * np.sin(4 * frequency * 2 * np.pi * t)  # 4ème harmonique
+        tone += 0.10 * np.sin(5 * frequency * 2 * np.pi * t)  # 5ème harmonique
+        tone += 0.05 * np.sin(5 * frequency * 2 * np.pi * t)  # 5ème harmonique
+
+
+        return self._apply_adsr(tone, duration)
 
     # Méthode pour générer une onde en dents de scie avec harmoniques (violon)
     def _generate_violin_tone(self, frequency, duration):
         t = np.linspace(0, duration, int(self.sample_rate * duration), False)
-        tone = 2 * (t * frequency - np.floor(0.5 + t * frequency))  # Onde en dents de scie
+        tone = 0.2 * (t * frequency - np.floor(0.5 + t * frequency))  # Onde en dents de scie
         # Ajout d'harmoniques
-        tone += 0.5 * np.sin(frequency * 2 * 2 * np.pi * t)  # Harmonie 1
-        tone += 0.3 * np.sin(frequency * 3 * 2 * np.pi * t)  # Harmonie 2
+        #tone += 0.5 * np.sin(2 * frequency * 2 * np.pi * t)  # 2ème harmonique
+        tone += 0.25 * np.sin(3 * frequency * 2 * np.pi * t)  # 3ème harmonique
+        tone += 0.2 * np.sin(4 * frequency * 2 * np.pi * t)  # 4ème harmonique
+        tone += 0.15 * np.sin(5 * frequency * 2 * np.pi * t)  # 5ème harmonique
+        tone += 0.1 * np.sin(5 * frequency * 2 * np.pi * t)  # 5ème harmonique
         return self._apply_adsr(tone, duration)
-
 
     # Jouer le son correspondant à l'instrument choisi
     def play_instrument(self, instrument, frequency, duration):
